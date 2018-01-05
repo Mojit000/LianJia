@@ -63,9 +63,9 @@ def parseHtml(htmlContent):
 
 def saveHouseInfoToTxt(houseInfo, txtFile):
     # TODO:判断txtFile中是否存在该信息，如果没有，则添加
-    if not os.path.exists(txtFile):
-        with open(txtFile, mode='w', encoding='utf-8') as f:
-            f.write()
+    # if not os.path.exists(txtFile):
+    #     with open(txtFile, mode='w', encoding='utf-8') as f:
+    #         f.write()
     for info in houseInfo:
         with open(txtFile, mode='a', encoding='utf-8') as f:
             f.write(' * '.join(info) + os.linesep)
