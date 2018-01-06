@@ -38,7 +38,7 @@ def parseHtml(htmlContent):
         house_url = ''.join(house.xpath(
             'div[(@class="info clear")]/div[(@class="title")]/a/@href'))
         # 提取多个标签下的文字
-        house_address = house.xpath(
+        house_houseInfo = house.xpath(
             'div[(@class="info clear")]/div[(@class="address")]/div[(@class="houseInfo")]')[0].xpath('string()')
         house_address_url = ''.join(house.xpath(
             'div[(@class="info clear")]/div[(@class="address")]/div[(@class="houseInfo")]/a/@href'))
@@ -56,7 +56,7 @@ def parseHtml(htmlContent):
             'div[(@class="info clear")]/div[(@class="priceInfo")]//div[(@class="totalPrice")]')[0].xpath('string()')
         house_priceInfo_uintPrice = house.xpath(
             'div[(@class="info clear")]/div[(@class="priceInfo")]//div[(@class="unitPrice")]')[0].xpath('string()')
-        house_info.append([house_title, house_address, house_flood, house_followInfo,
+        house_info.append([house_title, house_houseInfo, house_flood, house_followInfo,
                            house_priceInfo_total, house_priceInfo_uintPrice, ' | '.join(house_tag), house_url])
     return house_info
 
@@ -77,7 +77,7 @@ def saveHouseInfoToCSV(houseInfo, csvFile):
         with open(csvFile, mode='w', encoding='utf-8', newline='') as f:
             csvWriter = csv.writer(f, dialect='excel')
             csvWriter.writerow(
-                ['标题', '地址', '户型', '关注', '总价', '均价', '房源标签', '房源链接'])
+                ['title', 'houseInfo', 'flood', 'followInfo', 'totalPrice', 'unitPrice', 'tag', 'link'])
     for info in houseInfo:
         with open(csvFile, mode='a', encoding='utf-8', newline='') as f:
             csvWriter = csv.writer(f, dialect='excel')
@@ -92,8 +92,8 @@ def getAllHouseInfo(urlList):
     for url in urlList:
         htmlContent = getContent(url)
         houseInfo = parseHtml(htmlContent)
-        saveHouseInfoToTxt(houseInfo, conf.TXT_FILE)
-        saveHouseInfoToCSV(houseInfo, conf.CSV_FILE)
+        # saveHouseInfoToTxt(houseInfo, conf.TXT_FILE)
+        # saveHouseInfoToCSV(houseInfo, conf.CSV_FILE)
         print('获取第{num}页'.format(num=url.split('pg')[-1].split('.')[0]))
         time.sleep(0.5)
     print('信息获取完成')
